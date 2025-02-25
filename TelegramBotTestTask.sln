@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBotTestTask", "TelegramBotTestTask\TelegramBotTestTask.csproj", "{8F83DC28-B23F-49B3-8C7A-BF3AAADE82EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBotTestTask.BusinessLogic", "TelegramBotTestTask.BusinessLogic\TelegramBotTestTask.BusinessLogic.csproj", "{210F4FB5-1CD0-4C4C-A37E-B58496FCCA91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBotTestTask.DataAccess", "TelegramBotTestTask.DataAccess\TelegramBotTestTask.DataAccess.csproj", "{B3C60594-8283-427E-B9A4-8021D192D89C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F83DC28-B23F-49B3-8C7A-BF3AAADE82EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F83DC28-B23F-49B3-8C7A-BF3AAADE82EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F83DC28-B23F-49B3-8C7A-BF3AAADE82EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F83DC28-B23F-49B3-8C7A-BF3AAADE82EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210F4FB5-1CD0-4C4C-A37E-B58496FCCA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210F4FB5-1CD0-4C4C-A37E-B58496FCCA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210F4FB5-1CD0-4C4C-A37E-B58496FCCA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210F4FB5-1CD0-4C4C-A37E-B58496FCCA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C60594-8283-427E-B9A4-8021D192D89C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C60594-8283-427E-B9A4-8021D192D89C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C60594-8283-427E-B9A4-8021D192D89C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C60594-8283-427E-B9A4-8021D192D89C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F2DA0AC-DD0F-4A21-B3AA-B332BD4D6283}
+	EndGlobalSection
+EndGlobal
