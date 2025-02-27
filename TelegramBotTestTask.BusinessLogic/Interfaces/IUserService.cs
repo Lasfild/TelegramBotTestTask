@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using TelegramBotTestTask.DTOs;
 using System.Threading.Tasks;
-using TelegramBotTestTask.BusinessLogic.Models;
 
-public interface IUserService
+namespace TelegramBotTestTask.BusinessLogic.Interfaces
 {
-    Task<UserDto?> GetUserByIdAsync(int userId);
-    Task<List<UserDto>> GetAllUsersAsync();
+    public interface IUserService
+    {
+        Task<UserDto> GetUserByIdAsync(int id);
+        Task SendWeatherToAllAsync(SendWeatherRequest request);
+    }
 }

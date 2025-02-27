@@ -1,28 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using Dapper;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using Dapper;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using TelegramBotTestTask.DataAccess.Models;
+using TelegramBotTestTask.DTOs;
+using TelegramBotTestTask.DataAccess.Interfaces;
 
-public class UserRepository : IUserRepository
+namespace TelegramBotTestTask.DataAccess.Repositories
 {
-    private readonly IDbConnection _db;
-
-    public UserRepository(IConfiguration config)
+    public class UserRepository : IUserRepository
     {
-        _db = new SqlConnection(config.GetConnectionString("DefaultConnection"));
-    }
+        private readonly IDbConnection _dbConnection;
 
-    public async Task<User?> GetUserByIdAsync(int userId)
-    {
-        return await _db.QueryFirstOrDefaultAsync<User>(
-            "SELECT * FROM Users WHERE Id = @UserId", new { UserId = userId });
-    }
+        public UserRepository(IDbConnection dbConnection)
+        {
+            _dbConnection = dbConnection;
+        }
 
-    public async Task<IEnumerable<User>> GetAllAsync()
-    {
-        return await _db.QueryAsync<User>("SELECT * FROM Users");
+        public async Task<UserDto> GetUserByIdAsync(int id)
+        {
+            var query = "SELECT * FROM Users WHERE Id = @Id";
+            return await _dbConnection.QuerySingleOrDefaultAsync<UserDto>(query, new { Id = id });
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+        {
+            var query = "SELECT * FROM Users";
+            return await _dbConnection.QueryAsync<UserDto>(query);
+        }
     }
 }

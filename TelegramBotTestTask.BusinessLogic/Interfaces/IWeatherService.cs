@@ -4,6 +4,6 @@ namespace TelegramBotTestTask.BusinessLogic.Interfaces
 {
     public interface IWeatherService
     {
-        Task<string> GetCurrentWeatherAsync();
+        Task<string> GetWeatherAsync(string city);
     }
 }

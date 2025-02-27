@@ -1,4 +1,4 @@
-﻿namespace TelegramBotTestTask.BusinessLogic.DTOs
+﻿namespace TelegramBotTestTask.DTOs
 {
     public class SendWeatherRequest
     {

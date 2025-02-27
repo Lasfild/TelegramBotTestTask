@@ -1,29 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using TelegramBotTestTask.BusinessLogic.Interfaces;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
-[Route("api/telegram")]
-[ApiController]
-public class TelegramBotController : ControllerBase
+namespace TelegramBotTestTask.Controllers
 {
-    private readonly ITelegramService _telegramService;
-
-    public TelegramBotController(ITelegramService telegramService)
+    [Route("api/telegram")]
+    [ApiController]
+    public class TelegramBotController : ControllerBase
     {
-        _telegramService = telegramService;
-    }
+        private readonly ITelegramService _telegramService;
 
-    [HttpPost("update")]
-    public async Task<IActionResult> Post([FromBody] Update update)
-    {
-        if (update.Message?.Text != null)
+        public TelegramBotController(ITelegramService telegramService)
         {
-            var chatId = update.Message.Chat.Id;
-            var message = update.Message.Text;
-            await _telegramService.HandleMessageAsync(chatId, message);
+            _telegramService = telegramService;
         }
 
-        return Ok();
+        [HttpPost("update")]
+        public async Task<IActionResult> Post([FromBody] Update update)
+        {
+            if (update == null)
+                return BadRequest("Update is null");
+
+            await _telegramService.HandleUpdateAsync(update);
+            return Ok();
+        }
     }
 }

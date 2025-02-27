@@ -1,4 +1,4 @@
-﻿namespace TelegramBotTestTask.BusinessLogic.Models
+﻿namespace TelegramBotTestTask.DTOs
 {
     public record UserDto(int Id, long TelegramId, string Name);
 }

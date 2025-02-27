@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Telegram.Bot" Version="22.4.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TelegramBotTestTask.DataAccess\TelegramBotTestTask.DataAccess.csproj" />
+    <ProjectReference Include="..\TelegramBotTestTask.DTOs\TelegramBotTestTask.DTOs.csproj" />
   </ItemGroup>
 
 </Project>

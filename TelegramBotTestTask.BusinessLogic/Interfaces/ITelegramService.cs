@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using Telegram.Bot.Types;
+using System.Threading.Tasks;
 
 namespace TelegramBotTestTask.BusinessLogic.Interfaces
 {
     public interface ITelegramService
     {
-        Task SendMessageAsync(long telegramId, string message);
+        Task HandleUpdateAsync(Update update);
+        Task SendMessageAsync(long chatId, string message);
     }
 }
+
