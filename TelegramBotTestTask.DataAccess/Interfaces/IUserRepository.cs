@@ -1,12 +1,9 @@
-﻿using TelegramBotTestTask.DTOs;
+﻿using TelegramBotTestTask.DTOs.Responses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace TelegramBotTestTask.DataAccess.Interfaces
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<UserDto> GetUserByIdAsync(int id);
-        Task<IEnumerable<UserDto>> GetAllUsersAsync();
-    }
+    Task<IEnumerable<UserDto>> GetAllUsersAsync();
+    Task<UserDto?> GetUserByIdAsync(int userId);
 }

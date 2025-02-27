@@ -1,53 +1,45 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.DependencyInjection;
+using Telegram.Bot;
 using System.Data;
-using TelegramBotTestTask.BusinessLogic.Interfaces;
-using TelegramBotTestTask.BusinessLogic.Services;
-using TelegramBotTestTask.DataAccess.Interfaces;
-using TelegramBotTestTask.DataAccess.Repositories;
-using Swashbuckle.AspNetCore.SwaggerGen;  // Для Swagger
+using Microsoft.Data.SqlClient;
+using TelegramBotTestTask.Bot.BotServices;
+using TelegramBotTestTask.Bot.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Подключаем конфигурацию
-builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+var configuration = builder.Configuration;
 
-// Подключаем зависимости
-builder.Services.AddScoped<IUserRepository, UserRepository>();  // Репозиторий пользователей
-builder.Services.AddScoped<IUserService, UserService>();        // Логика работы с пользователями
-builder.Services.AddScoped<IWeatherService, WeatherService>();  // Логика работы с погодой
-builder.Services.AddScoped<ITelegramService, TelegramService>();  // Telegram сервис
+builder.Services.AddControllers();
 
-// Подключаем HTTP-клиент для взаимодействия с внешними API (для OpenWeather)
-builder.Services.AddHttpClient();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-// Подключаем базу данных через Dapper
-builder.Services.AddScoped<IDbConnection>(sp =>
-    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddTransient<IDbConnection>(sp =>
+    new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
 
-// Добавляем сервисы для работы с контроллерами
-builder.Services.AddControllers();  // Это нужно для работы с API контроллерами
+builder.Services.AddScoped<IWeatherService, WeatherService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
-// Добавляем авторизацию (если используется в проекте)
-builder.Services.AddAuthorization();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWeatherHistoryRepository, WeatherHistoryRepository>();
 
-// Добавляем Swagger
-builder.Services.AddSwaggerGen();  // Эта строка добавляет поддержку Swagger
+builder.Services.AddScoped<MessageHandler>();
+builder.Services.AddScoped<CallbackHandler>();
+
+var botToken = configuration["TelegramBot:Token"];
+builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botToken));
+
+builder.Services.AddScoped<TelegramBotService>();
 
 var app = builder.Build();
 
-// Конфигурация Swagger и остальных сервисов
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // Включаем Swagger
-    app.UseSwaggerUI(); // Включаем UI для Swagger
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-// Включаем авторизацию (если используем)
+app.UseHttpsRedirection();
 app.UseAuthorization();
-
-// Используем контроллеры
 app.MapControllers();
-
 app.Run();

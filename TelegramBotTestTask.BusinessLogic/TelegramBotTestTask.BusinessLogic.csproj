@@ -7,13 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Telegram.Bot" Version="22.4.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TelegramBotTestTask.DataAccess\TelegramBotTestTask.DataAccess.csproj" />
-    <ProjectReference Include="..\TelegramBotTestTask.DTOs\TelegramBotTestTask.DTOs.csproj" />
+	  <ProjectReference Include="..\TelegramBotTestTask.DataAccess\TelegramBotTestTask.DataAccess.csproj" />
+	  <ProjectReference Include="..\TelegramBotTestTask.DTOs\TelegramBotTestTask.DTOs.csproj" />
   </ItemGroup>
 
 </Project>

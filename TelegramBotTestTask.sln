@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBotTestTask.Busines
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBotTestTask.DataAccess", "TelegramBotTestTask.DataAccess\TelegramBotTestTask.DataAccess.csproj", "{B3C60594-8283-427E-B9A4-8021D192D89C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBotTestTask.DTOs", "TelegramBotTestTask.DTOs\TelegramBotTestTask.DTOs.csproj", "{7CA9306B-6E53-4EE8-8D40-33AAD93E4CF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBotTestTask.DTOs", "TelegramBotTestTask.DTOs\TelegramBotTestTask.DTOs.csproj", "{7CA9306B-6E53-4EE8-8D40-33AAD93E4CF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBotTestTask.Bot", "TelegramBotTestTask.Bot\TelegramBotTestTask.Bot.csproj", "{4DB044F2-AFB8-409E-9FFD-804ADF01F7D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramBotTestTask.Common", "TelegramBotTestTask.Common\TelegramBotTestTask.Common.csproj", "{F5710846-21D9-4739-83A1-3A0177A124C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{7CA9306B-6E53-4EE8-8D40-33AAD93E4CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CA9306B-6E53-4EE8-8D40-33AAD93E4CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CA9306B-6E53-4EE8-8D40-33AAD93E4CF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB044F2-AFB8-409E-9FFD-804ADF01F7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB044F2-AFB8-409E-9FFD-804ADF01F7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB044F2-AFB8-409E-9FFD-804ADF01F7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB044F2-AFB8-409E-9FFD-804ADF01F7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5710846-21D9-4739-83A1-3A0177A124C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5710846-21D9-4739-83A1-3A0177A124C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5710846-21D9-4739-83A1-3A0177A124C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5710846-21D9-4739-83A1-3A0177A124C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

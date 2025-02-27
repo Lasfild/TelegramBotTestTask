@@ -1,35 +1,16 @@
-﻿using TelegramBotTestTask.DTOs;
-using System.Threading.Tasks;
-using TelegramBotTestTask.BusinessLogic.Interfaces;
-using TelegramBotTestTask.DataAccess.Interfaces;
-
+﻿using TelegramBotTestTask.DTOs.Responses;
 
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly ITelegramService _telegramService;
-    private readonly IWeatherService _weatherService;
 
-    public UserService(IUserRepository userRepository, ITelegramService telegramService, IWeatherService weatherService)
+    public UserService(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _telegramService = telegramService;
-        _weatherService = weatherService;
     }
 
-    public async Task<UserDto> GetUserByIdAsync(int id)
+    public async Task<UserDto?> GetUserByIdAsync(int userId)
     {
-        return await _userRepository.GetUserByIdAsync(id);
-    }
-
-    public async Task SendWeatherToAllAsync(SendWeatherRequest request)
-    {
-        var users = await _userRepository.GetAllUsersAsync();
-
-        foreach (var user in users)
-        {
-            var weather = await _weatherService.GetWeatherAsync("Moscow"); // Здесь можно передавать город
-            await _telegramService.SendMessageAsync(user.TelegramId, weather);
-        }
+        return await _userRepository.GetUserByIdAsync(userId);
     }
 }
