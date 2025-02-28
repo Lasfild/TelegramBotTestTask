@@ -16,7 +16,7 @@ public class UserController : ControllerBase
     {
         var user = await _userService.GetUserByIdAsync(userId);
         if (user == null)
-            return NotFound("Пользователь не найден");
+            return NotFound("Пользоваткль не найден");
 
         return Ok(user);
     }

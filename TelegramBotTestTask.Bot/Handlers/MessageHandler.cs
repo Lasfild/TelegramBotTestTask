@@ -18,28 +18,36 @@ namespace TelegramBotTestTask.Bot.Handlers
 
         public async Task HandleMessageAsync(Message message)
         {
-            if (message.Text.StartsWith("/weather"))
+            if (message?.Text != null)  // Проверка на null
             {
-                var city = message.Text.Split(' ').Skip(1).FirstOrDefault();
-                if (string.IsNullOrEmpty(city))
+                if (message.Text.StartsWith("/weather"))
                 {
-                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Пожалуйста, укажите город после команды /weather");
-                    return;
-                }
+                    var city = message.Text.Split(' ').Skip(1).FirstOrDefault();
+                    if (string.IsNullOrEmpty(city))
+                    {
+                        await _botClient.SendTextMessageAsync(message.Chat.Id, "Пожалуйста, укажите город после команды /weather");
+                        return;
+                    }
 
-                var weather = await _weatherService.GetWeatherAsync(city);
-                if (weather == null)
+                    var weather = await _weatherService.GetWeatherAsync(city);
+                    if (weather == null)
+                    {
+                        await _botClient.SendTextMessageAsync(message.Chat.Id, "Не удалось получить данные о погоде.");
+                        return;
+                    }
+
+                    await _botClient.SendTextMessageAsync(message.Chat.Id,
+                        $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
+                }
+                else
                 {
-                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Не удалось получить данные о погоде.");
-                    return;
+                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Используйте команду /weather {город}");
                 }
-
-                await _botClient.SendTextMessageAsync(message.Chat.Id,
-                    $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
             }
             else
             {
-                await _botClient.SendTextMessageAsync(message.Chat.Id, "Используйте команду /weather {город}");
+                // Если сообщение не содержит текст, уведомляем пользователя.
+                await _botClient.SendTextMessageAsync(message.Chat.Id, "Сообщение не содержит текста.");
             }
         }
     }
