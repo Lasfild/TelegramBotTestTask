@@ -11,29 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-// Настройка подключения к базе данных
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddScoped<IDbConnection>(db => new SqlConnection(connectionString));
 
-// Регистрируем остальные сервисы
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
-// Регистрируем сервисы бизнес-логики
 builder.Services.AddScoped<IWeatherService, WeatherService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>(); // Добавляем репозиторий пользователя
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// Регистрируем TelegramBotClient
 var botToken = configuration["TelegramBot:Token"];
 builder.Services.AddSingleton<ITelegramBotClient>(new TelegramBotClient(botToken));
 
-// Регистрируем обработчики
 builder.Services.AddScoped<MessageHandler>();
 builder.Services.AddScoped<CallbackHandler>();
 
-// Логирование
 builder.Services.AddLogging(logging =>
 {
     logging.ClearProviders();
@@ -42,7 +36,6 @@ builder.Services.AddLogging(logging =>
 
 var app = builder.Build();
 
-// Настройка webhook для бота
 var webhookUrl = configuration["WebhookUrl"] + "/webhook";
 var botClient = app.Services.GetRequiredService<ITelegramBotClient>();
 try
