@@ -7,7 +7,7 @@ public class NotificationService : INotificationService
     private readonly IWeatherService _weatherService;
 
     public NotificationService(
-        ITelegramBotClient botClient,
+        ITelegramBotClient botClient, 
         IUserRepository userRepository,
         IWeatherService weatherService)
     {
@@ -25,7 +25,7 @@ public class NotificationService : INotificationService
             var weather = await _weatherService.GetWeatherAsync(user.LastCity);
             if (weather != null)
             {
-                await _botClient.SendTextMessageAsync(user.TelegramId,
+                await _botClient.SendTextMessageAsync(user.TelegramId, 
                     $"Погода в {user.LastCity}: {weather.Temperature}°C, {weather.Description}");
             }
         }

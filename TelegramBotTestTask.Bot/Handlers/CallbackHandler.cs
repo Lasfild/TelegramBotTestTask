@@ -1,27 +1,31 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using System.Threading.Tasks;
 
-public class CallbackHandler
+namespace TelegramBotTestTask.Bot.Handlers
 {
-    private readonly ITelegramBotClient _botClient;
-    private readonly IWeatherService _weatherService;
-
-    public CallbackHandler(ITelegramBotClient botClient, IWeatherService weatherService)
+    public class CallbackHandler
     {
-        _botClient = botClient;
-        _weatherService = weatherService;
-    }
+        private readonly ITelegramBotClient _botClient;
+        private readonly IWeatherService _weatherService;
 
-    public async Task HandleCallbackAsync(CallbackQuery callbackQuery)
-    {
-        if (callbackQuery.Data.StartsWith("weather_"))
+        public CallbackHandler(ITelegramBotClient botClient, IWeatherService weatherService)
         {
-            var city = callbackQuery.Data.Split('_').Last();
-            var weather = await _weatherService.GetWeatherAsync(city);
-            if (weather != null)
+            _botClient = botClient;
+            _weatherService = weatherService;
+        }
+
+        public async Task HandleCallbackAsync(CallbackQuery callbackQuery)
+        {
+            if (callbackQuery.Data.StartsWith("weather_"))
             {
-                await _botClient.EditMessageTextAsync(callbackQuery.Message.Chat.Id, callbackQuery.Message.MessageId,
-                    $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
+                var city = callbackQuery.Data.Split('_').Last();
+                var weather = await _weatherService.GetWeatherAsync(city);
+                if (weather != null)
+                {
+                    await _botClient.EditMessageTextAsync(callbackQuery.Message.Chat.Id, callbackQuery.Message.MessageId,
+                        $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
+                }
             }
         }
     }

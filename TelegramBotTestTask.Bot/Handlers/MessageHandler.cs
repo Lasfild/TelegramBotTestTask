@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TelegramBotTestTask.Bot.Handlers
 {
@@ -22,20 +23,23 @@ namespace TelegramBotTestTask.Bot.Handlers
                 var city = message.Text.Split(' ').Skip(1).FirstOrDefault();
                 if (string.IsNullOrEmpty(city))
                 {
-                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Укажите город после команды /weather");
+                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Пожалуйста, укажите город после команды /weather");
                     return;
                 }
 
                 var weather = await _weatherService.GetWeatherAsync(city);
                 if (weather == null)
                 {
-                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Не удалось получить данные о погоде");
+                    await _botClient.SendTextMessageAsync(message.Chat.Id, "Не удалось получить данные о погоде.");
                     return;
                 }
 
                 await _botClient.SendTextMessageAsync(message.Chat.Id,
-                    $"Погода в {city}: {weather.Temperature}°C, {weather.Description}",
-                    replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData("Обновить", $"weather_{city}")));
+                    $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
+            }
+            else
+            {
+                await _botClient.SendTextMessageAsync(message.Chat.Id, "Используйте команду /weather {город}");
             }
         }
     }

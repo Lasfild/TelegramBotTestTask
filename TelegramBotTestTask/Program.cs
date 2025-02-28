@@ -3,6 +3,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using TelegramBotTestTask.Bot.BotServices;
 using TelegramBotTestTask.Bot.Handlers;
+using TelegramBotTestTask.BusinessLogic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+
 
 builder.Services.AddTransient<IDbConnection>(sp =>
     new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
