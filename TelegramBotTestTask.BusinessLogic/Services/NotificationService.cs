@@ -1,32 +1,34 @@
 ﻿using Telegram.Bot;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TelegramBotTestTask.BusinessLogic.Interfaces;
+using TelegramBotTestTask.DataAccess.Interfaces;
 
-public class NotificationService : INotificationService
+namespace TelegramBotTestTask.BusinessLogic.Services
 {
-    private readonly ITelegramBotClient _botClient;
-    private readonly IUserRepository _userRepository;
-    private readonly IWeatherService _weatherService;
-
-    public NotificationService(
-        ITelegramBotClient botClient, 
-        IUserRepository userRepository,
-        IWeatherService weatherService)
+    public class NotificationService : INotificationService
     {
-        _botClient = botClient;
-        _userRepository = userRepository;
-        _weatherService = weatherService;
-    }
+        private readonly ITelegramBotClient _botClient;
+        private readonly IUserRepository _userRepository;
+        private readonly IWeatherService _weatherService;
 
-    public async Task SendWeatherToAllUsersAsync()
-    {
-        var users = await _userRepository.GetAllUsersAsync();
-
-        foreach (var user in users)
+        public NotificationService(ITelegramBotClient botClient, IUserRepository userRepository, IWeatherService weatherService)
         {
-            var weather = await _weatherService.GetWeatherAsync(user.LastCity);
-            if (weather != null)
+            _botClient = botClient;
+            _userRepository = userRepository;
+            _weatherService = weatherService;
+        }
+
+        public async Task SendWeatherToAllAsync(string city)
+        {
+            var users = await _userRepository.GetAllUserIdsAsync();
+            var weather = await _weatherService.GetWeatherAsync(city);
+
+            if (weather == null) return;
+
+            foreach (var userId in users)
             {
-                await _botClient.SendTextMessageAsync(user.TelegramId, 
-                    $"Погода в {user.LastCity}: {weather.Temperature}°C, {weather.Description}");
+                await _botClient.SendTextMessageAsync(userId, $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
             }
         }
     }

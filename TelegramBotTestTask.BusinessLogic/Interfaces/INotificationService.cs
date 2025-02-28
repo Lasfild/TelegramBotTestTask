@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-public interface INotificationService
+namespace TelegramBotTestTask.BusinessLogic.Interfaces
 {
-    Task SendWeatherToAllUsersAsync();
+    public interface INotificationService
+    {
+        Task SendWeatherToAllAsync(string city);
+    }
 }

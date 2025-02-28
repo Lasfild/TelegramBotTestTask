@@ -1,24 +1,44 @@
-﻿using Dapper;
-using System.Data;
+﻿using System.Data;
+using System.Threading.Tasks;
+using Dapper;
+using TelegramBotTestTask.DataAccess.Interfaces;
 using TelegramBotTestTask.DTOs.Responses;
 
-public class UserRepository : IUserRepository
+namespace TelegramBotTestTask.DataAccess.Repositories
 {
-    private readonly IDbConnection _dbConnection;
-
-    public UserRepository(IDbConnection dbConnection)
+    public class UserRepository : IUserRepository
     {
-        _dbConnection = dbConnection;
-    }
+        private readonly IDbConnection _dbConnection;
 
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
-    {
-        return await _dbConnection.QueryAsync<UserDto>("SELECT * FROM Users");
-    }
+        public UserRepository(IDbConnection dbConnection)
+        {
+            _dbConnection = dbConnection;
+        }
 
-    public async Task<UserDto?> GetUserByIdAsync(int userId)
-    {
-        return await _dbConnection.QueryFirstOrDefaultAsync<UserDto>(
-            "SELECT * FROM Users WHERE Id = @Id", new { Id = userId });
+        public async Task<UserDto> GetUserWithHistoryAsync(int userId)
+        {
+            var query = "SELECT UserId, Username, TelegramId, WeatherQueryHistory FROM Users WHERE UserId = @UserId";
+            var user = await _dbConnection.QueryFirstOrDefaultAsync<UserDto>(query, new { UserId = userId });
+            return user;
+        }
+
+        public async Task<UserDto> GetUserByTelegramIdAsync(long telegramId)
+        {
+            var query = "SELECT UserId, Username, TelegramId, WeatherQueryHistory FROM Users WHERE TelegramId = @TelegramId";
+            var user = await _dbConnection.QueryFirstOrDefaultAsync<UserDto>(query, new { TelegramId = telegramId });
+            return user;
+        }
+
+        public async Task AddUserAsync(UserDto user)
+        {
+            var query = "INSERT INTO Users (TelegramId, Username) VALUES (@TelegramId, @Username)";
+            await _dbConnection.ExecuteAsync(query, new { user.TelegramId, user.Username });
+        }
+
+        public async Task<IEnumerable<long>> GetAllUserIdsAsync()
+        {
+            string query = "SELECT TelegramId FROM Users";
+            return await _dbConnection.QueryAsync<long>(query);
+        }
     }
 }

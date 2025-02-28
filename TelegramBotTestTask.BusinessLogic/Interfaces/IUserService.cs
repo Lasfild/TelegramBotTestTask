@@ -1,7 +1,11 @@
-﻿using TelegramBotTestTask.DTOs.Responses;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using TelegramBotTestTask.DTOs;
+using TelegramBotTestTask.DTOs.Responses;
 
-public interface IUserService
+namespace TelegramBotTestTask.BusinessLogic.Interfaces
 {
-    Task<UserDto?> GetUserByIdAsync(int userId);
+    public interface IUserService
+    {
+        Task<UserDto> GetUserWithHistoryAsync(int userId);
+    }
 }

@@ -1,16 +1,23 @@
-﻿using TelegramBotTestTask.DTOs.Responses;
+﻿using System.Threading.Tasks;
+using TelegramBotTestTask.BusinessLogic.Interfaces;
+using TelegramBotTestTask.DataAccess.Interfaces;
+using TelegramBotTestTask.DTOs;
+using TelegramBotTestTask.DTOs.Responses;
 
-public class UserService : IUserService
+namespace TelegramBotTestTask.BusinessLogic.Services
 {
-    private readonly IUserRepository _userRepository;
-
-    public UserService(IUserRepository userRepository)
+    public class UserService : IUserService
     {
-        _userRepository = userRepository;
-    }
+        private readonly IUserRepository _userRepository;
 
-    public async Task<UserDto?> GetUserByIdAsync(int userId)
-    {
-        return await _userRepository.GetUserByIdAsync(userId);
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        public async Task<UserDto> GetUserWithHistoryAsync(int userId)
+        {
+            return await _userRepository.GetUserWithHistoryAsync(userId);
+        }
     }
 }

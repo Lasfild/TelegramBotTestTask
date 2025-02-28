@@ -1,23 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using TelegramBotTestTask.BusinessLogic.Interfaces;
+using TelegramBotTestTask.DTOs;
 
-[ApiController]
-[Route("api/users")]
-public class UserController : ControllerBase
+namespace TelegramBotTestTask.Controllers
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
+    [ApiController]
+    [Route("users")]
+    public class UserController : ControllerBase
     {
-        _userService = userService;
-    }
+        private readonly IUserService _userService;
 
-    [HttpGet("{userId}")]
-    public async Task<IActionResult> GetUser(int userId)
-    {
-        var user = await _userService.GetUserByIdAsync(userId);
-        if (user == null)
-            return NotFound("Пользоваткль не найден");
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
-        return Ok(user);
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserWithWeatherHistory(int userId)
+        {
+            var user = await _userService.GetUserWithHistoryAsync(userId);
+            if (user == null)
+            {
+                return NotFound("Пользователь не найден.");
+            }
+            return Ok(user);
+        }
     }
 }

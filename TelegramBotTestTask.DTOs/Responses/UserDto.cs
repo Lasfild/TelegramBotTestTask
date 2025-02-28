@@ -8,8 +8,9 @@ namespace TelegramBotTestTask.DTOs.Responses
 {
     public class UserDto
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string Username { get; set; }
+        public List<string> WeatherQueryHistory { get; set; }
         public long TelegramId { get; set; }
-        public string LastCity { get; set; }
     }
 }

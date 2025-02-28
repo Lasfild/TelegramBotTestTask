@@ -1,7 +1,7 @@
-﻿using Telegram.Bot;
+﻿using System.Threading.Tasks;
+using Telegram.Bot;
 using Telegram.Bot.Types;
-using System.Linq;
-using System.Threading.Tasks;
+using TelegramBotTestTask.BusinessLogic.Interfaces;
 
 namespace TelegramBotTestTask.Bot.Handlers
 {
@@ -18,19 +18,21 @@ namespace TelegramBotTestTask.Bot.Handlers
 
         public async Task HandleCallbackAsync(CallbackQuery callbackQuery)
         {
-            if (callbackQuery?.Data != null && callbackQuery.Data.StartsWith("weather_"))
+            if (callbackQuery.Data.StartsWith("weather "))
             {
-                var city = callbackQuery.Data.Split('_').Last();
+                var city = callbackQuery.Data.Replace("weather ", "");
                 var weather = await _weatherService.GetWeatherAsync(city);
+
                 if (weather != null)
                 {
-                    await _botClient.EditMessageTextAsync(callbackQuery.Message.Chat.Id, callbackQuery.Message.MessageId,
+                    await _botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                         $"Погода в {city}: {weather.Temperature}°C, {weather.Description}");
                 }
-            }
-            else
-            {
-                await _botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Невалидный запрос.");
+                else
+                {
+                    await _botClient.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                        "Не удалось получить данные о погоде.");
+                }
             }
         }
     }

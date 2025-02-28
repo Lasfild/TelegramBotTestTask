@@ -1,20 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using TelegramBotTestTask.BusinessLogic.Interfaces;
 
-[ApiController]
-[Route("api/notifications")]
-public class NotificationController : ControllerBase
+namespace TelegramBotTestTask.Controllers
 {
-    private readonly INotificationService _notificationService;
-
-    public NotificationController(INotificationService notificationService)
+    [ApiController]
+    [Route("notifications")]
+    public class NotificationController : ControllerBase
     {
-        _notificationService = notificationService;
-    }
+        private readonly INotificationService _notificationService;
 
-    [HttpPost("sendWeatherToAll")]
-    public async Task<IActionResult> SendWeatherToAll()
-    {
-        await _notificationService.SendWeatherToAllUsersAsync();
-        return Ok("Уведомления отправлены");
+        public NotificationController(INotificationService notificationService)
+        {
+            _notificationService = notificationService;
+        }
+
+        [HttpPost("sendWeatherToAll")]
+        public async Task<IActionResult> SendWeatherToAll([FromQuery] string city)
+        {
+            await _notificationService.SendWeatherToAllAsync(city);
+            return Ok("Рассылка завершена.");
+        }
     }
 }
